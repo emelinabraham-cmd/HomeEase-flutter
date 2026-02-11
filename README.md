@@ -22,7 +22,7 @@ The application follows a component-based architecture for scalability and maint
 ```mermaid
 graph TD
     User[User Interaction] --> Main[main.dart]
-    Main --> AppTheme[AppTheme (Theme Data)]
+    Main --> AppTheme["AppTheme (Theme Data)"]
     Main --> HomeScreen[HomeScreen]
     
     subgraph Components
@@ -36,7 +36,7 @@ graph TD
     
     subgraph Core
         AppTheme --> Colors[Custom Colors]
-        AppTheme --> Typography[Google Fonts (Lexend)]
+        AppTheme --> Typography["Google Fonts (Lexend)"]
     end
 ```
 
@@ -83,7 +83,7 @@ flowchart LR
         Deps --> Analyze[Static Analysis]
         Analyze --> Test[Run Tests]
         Test --> BuildAndroid[Build Android APK]
-        Test --> BuildiOS[Build iOS (No Codesign)]
+        Test --> BuildiOS["Build iOS (No Codesign)"]
     end
     
     BuildAndroid --> Artifacts[Upload Artifacts]
