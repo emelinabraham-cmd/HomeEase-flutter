@@ -1,0 +1,51 @@
+name: Flutter Build
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build_android:
+    name: Build Android APK
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+      
+      - run: flutter pub get
+      
+      # Build Debug APK to ensure build integrity without signing keys
+      - run: flutter build apk --debug
+      
+      - uses: actions/upload-artifact@v3
+        with:
+          name: app-debug-apk
+          path: build/app/outputs/flutter-apk/app-debug.apk
+
+  build_ios:
+    name: Build iOS App
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          
+      - run: flutter pub get
+      
+      # Build iOS release bundle without code signing identity
+      - run: flutter build ios --release --no-codesign
+      
+      # Note: The output is .app standard bundle, usually requires further packaging/signing
+      - uses: actions/upload-artifact@v3
+        with:
+          name: app-release-ios
+          path: build/ios/iphoneos/Runner.app
