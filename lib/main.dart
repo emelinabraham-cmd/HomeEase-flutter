@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/theme.dart';
-import 'package:my_app/home_screen.dart';
+import 'package:my_app/main_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       title: 'Tamil Nadu Services',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
-      home: const HomeScreen(),
+      home: const MainScreen(),
     );
   }
 }

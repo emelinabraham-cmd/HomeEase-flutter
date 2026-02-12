@@ -27,7 +27,7 @@ class ServiceGrid extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 12),
-        
+
         // Bento Grid Layout
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,7 +50,7 @@ class ServiceGrid extends StatelessWidget {
             Expanded(
               child: Column(
                 children: [
-                   _buildServiceCard(
+                  _buildServiceCard(
                     title: "கைவினைஞர்",
                     subtitle: "HANDYMAN",
                     icon: Icons.handyman,
@@ -58,7 +58,7 @@ class ServiceGrid extends StatelessWidget {
                     height: 104,
                   ),
                   const SizedBox(height: 12),
-                   _buildServiceCard(
+                  _buildServiceCard(
                     title: "இடம் மாற்றம்",
                     subtitle: "MOVING",
                     icon: Icons.local_shipping,
@@ -82,12 +82,13 @@ class ServiceGrid extends StatelessWidget {
                 color: Colors.teal,
               ),
             ),
-             const SizedBox(width: 12),
-             Expanded(
+            const SizedBox(width: 12),
+            Expanded(
               child: _buildSmallCard(
                 title: "அலாரங்கள்",
                 subtitle: "DETECTORS",
-                icon: Icons.sensors, // detector_smoke not standard, using sensors
+                icon:
+                    Icons.sensors, // detector_smoke not standard, using sensors
                 color: Colors.pink, // rose
               ),
             ),
@@ -109,7 +110,7 @@ class ServiceGrid extends StatelessWidget {
   }) {
     return Container(
       height: height,
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(isTall ? 20 : 16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(32),
@@ -127,25 +128,29 @@ class ServiceGrid extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-               Container(
-                width: isTall ? 56 : 48,
-                height: isTall ? 56 : 48,
+              Container(
+                width: isTall ? 56 : 40,
+                height: isTall ? 56 : 40,
                 decoration: BoxDecoration(
                   color: color.shade500, // tailwind default shade
-                  borderRadius: BorderRadius.circular(isTall ? 16 : 12),
+                  borderRadius: BorderRadius.circular(isTall ? 16 : 10),
                   boxShadow: [
-                     BoxShadow(
+                    BoxShadow(
                       color: color.shade100,
                       blurRadius: 8,
                       offset: const Offset(0, 4),
                     ),
                   ],
                 ),
-                child: Icon(icon, color: Colors.white, size: iconSize),
+                child: Icon(
+                  icon,
+                  color: Colors.white,
+                  size: isTall ? iconSize : 20,
+                ),
               ),
               if (isTall) const Spacer(),
-              if (!isTall) const SizedBox(height: 12),
-              
+              if (!isTall) const SizedBox(height: 8),
+
               Text(
                 title,
                 style: TextStyle(
@@ -172,7 +177,7 @@ class ServiceGrid extends StatelessWidget {
   }
 
   Widget _buildSmallCard({
-     required String title,
+    required String title,
     required String subtitle,
     required IconData icon,
     required MaterialColor color,
@@ -182,18 +187,18 @@ class ServiceGrid extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(24),
-         boxShadow: [
+        boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.04),
             blurRadius: 14,
             offset: const Offset(0, 4),
           ),
         ],
-         border: Border.all(color: Colors.grey.shade50),
+        border: Border.all(color: Colors.grey.shade50),
       ),
       child: Row(
         children: [
-           Container(
+          Container(
             width: 40,
             height: 40,
             decoration: BoxDecoration(
@@ -206,9 +211,10 @@ class ServiceGrid extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-               Text(
+              Text(
                 title,
-                style: const TextStyle( // 12px
+                style: const TextStyle(
+                  // 12px
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
                   color: AppTheme.brandDark,
@@ -216,14 +222,15 @@ class ServiceGrid extends StatelessWidget {
               ),
               Text(
                 subtitle,
-                style: const TextStyle( // 8px
+                style: const TextStyle(
+                  // 8px
                   fontSize: 8,
                   fontWeight: FontWeight.bold,
                   color: AppTheme.brandSlate,
                 ),
               ),
             ],
-          )
+          ),
         ],
       ),
     );

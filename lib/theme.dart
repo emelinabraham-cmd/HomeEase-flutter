@@ -8,6 +8,7 @@ class AppTheme {
   static const Color brandSlateDark = Color(0xFF4A4D51);
   static const Color brandMint = Color(0xFFF4FAF7);
   static const Color scaffoldBackground = Color(0xFFF8F9FA);
+  static const Color textPrimary = brandDark;
 
   static ThemeData get lightTheme {
     return ThemeData(
@@ -22,9 +23,7 @@ class AppTheme {
         bodyColor: brandDark,
         displayColor: brandDark,
       ),
-      iconTheme: const IconThemeData(
-        color: brandDark,
-      ),
+      iconTheme: const IconThemeData(color: brandDark),
     );
   }
 }
