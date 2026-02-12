@@ -4,16 +4,18 @@ import 'package:my_app/components/promo_banner.dart';
 import 'package:my_app/components/search_bar.dart';
 import 'package:my_app/components/service_grid.dart';
 import 'package:my_app/components/service_header.dart';
+import 'models/service_model.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  final Function(Service) onServiceSelected;
+  const HomeScreen({super.key, required this.onServiceSelected});
 
   @override
   Widget build(BuildContext context) {
-    return const SingleChildScrollView(
-      physics: BouncingScrollPhysics(),
+    return SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
       child: Padding(
-        padding: EdgeInsets.fromLTRB(
+        padding: const EdgeInsets.fromLTRB(
           24,
           60,
           24,
@@ -22,14 +24,14 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ServiceHeader(),
-            CustomSearchBar(),
-            SizedBox(height: 24),
-            CategoryChips(),
-            SizedBox(height: 24),
-            PromoBanner(),
-            SizedBox(height: 24),
-            ServiceGrid(),
+            const ServiceHeader(),
+            const CustomSearchBar(),
+            const SizedBox(height: 24),
+            const CategoryChips(),
+            const SizedBox(height: 24),
+            const PromoBanner(),
+            const SizedBox(height: 24),
+            ServiceGrid(onServiceSelected: onServiceSelected),
           ],
         ),
       ),
