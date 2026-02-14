@@ -1,21 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/theme.dart';
 import 'package:my_app/main_screen.dart';
+import 'package:my_app/components/homeease_splash.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool _showSplash = true;
+
+  void _hideSplash() {
+    setState(() {
+      _showSplash = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Tamil Nadu Services',
+      title: 'HomeEase',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
-      home: const MainScreen(),
+      home: _showSplash
+          ? HomeEaseSplash(onComplete: _hideSplash)
+          : const MainScreen(),
     );
   }
 }

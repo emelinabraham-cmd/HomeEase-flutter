@@ -49,66 +49,15 @@ class _ServiceGridState extends State<ServiceGrid> {
 
         StaggeredGrid.count(
           crossAxisCount: 2,
-          mainAxisSpacing: 12,
-          crossAxisSpacing: 12,
+          mainAxisSpacing: 16,
+          crossAxisSpacing: 16,
           children: [
-            // Row 1 & 2: Large Square (L) + 3 stack (R)
-            StaggeredGridTile.count(
-              crossAxisCellCount: 1,
-              mainAxisCellCount: 2.0,
-              child: _buildServiceCard(services[0], true),
-            ),
-            StaggeredGridTile.count(
-              crossAxisCellCount: 1,
-              mainAxisCellCount: 0.65,
-              child: _buildServiceCard(services[1], false),
-            ),
-            StaggeredGridTile.count(
-              crossAxisCellCount: 1,
-              mainAxisCellCount: 0.65,
-              child: _buildServiceCard(services[2], false),
-            ),
-            StaggeredGridTile.count(
-              crossAxisCellCount: 1,
-              mainAxisCellCount: 0.7,
-              child: _buildServiceCard(services[3], false),
-            ),
-
-            // Row 3 & 4: Wide Horizontal (L) + Tall Vertical (R)
-            StaggeredGridTile.count(
-              crossAxisCellCount: 1,
-              mainAxisCellCount: 1.0,
-              child: _buildServiceCard(services[4], false),
-            ),
-            StaggeredGridTile.count(
-              crossAxisCellCount: 1,
-              mainAxisCellCount: 2.0,
-              child: _buildServiceCard(services[5], true),
-            ),
-            StaggeredGridTile.count(
-              crossAxisCellCount: 1,
-              mainAxisCellCount: 1.0,
-              child: _buildServiceCard(services[6], false),
-            ),
-
-            // Row 5: Large Square (L) + Medium (R)
-            StaggeredGridTile.count(
-              crossAxisCellCount: 1,
-              mainAxisCellCount: 1.2,
-              child: _buildServiceCard(services[7], true),
-            ),
-            StaggeredGridTile.count(
-              crossAxisCellCount: 1,
-              mainAxisCellCount: 1.2,
-              child: _buildServiceCard(services[8], false),
-            ),
-
-            // Row 6: Full Width (Bottom)
-            StaggeredGridTile.count(
-              crossAxisCellCount: 2,
-              mainAxisCellCount: 0.6,
-              child: _buildServiceCard(services[9], false),
-            ),
+            for (int i = 0; i < services.length; i++)
+              StaggeredGridTile.count(
+                crossAxisCellCount: 1,
+                mainAxisCellCount: 1.15,
+                child: _buildServiceCard(services[i], false),
+              ),
           ],
         ),
       ],
@@ -122,71 +71,76 @@ class _ServiceGridState extends State<ServiceGrid> {
       onTap: () => _handleTap(service),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
-        padding: EdgeInsets.all(isTall ? 20 : 12),
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: isSelected ? service.color.shade50 : Colors.white,
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: isSelected ? service.color : Colors.grey.shade100,
+            color: isSelected ? service.color : Colors.grey.shade50,
             width: isSelected ? 2 : 1,
           ),
           boxShadow: [
             BoxShadow(
-              color: isSelected
-                  ? service.color.withOpacity(0.1)
-                  : Colors.black.withOpacity(0.04),
-              blurRadius: isSelected ? 20 : 14,
+              color: Colors.black.withOpacity(isSelected ? 0.08 : 0.03),
+              blurRadius: isSelected ? 15 : 10,
               offset: const Offset(0, 4),
             ),
           ],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Container(
-              width: isTall ? 48 : 32,
-              height: isTall ? 48 : 32,
+              width: 44,
+              height: 44,
               decoration: BoxDecoration(
-                color: service.color.shade500,
-                borderRadius: BorderRadius.circular(isTall ? 14 : 8),
+                color: service.color.shade50,
+                borderRadius: BorderRadius.circular(12),
               ),
               child: Icon(
                 service.icon,
-                color: Colors.white,
-                size: isTall ? 24 : 16,
+                color: service.color.shade600,
+                size: 24,
               ),
             ),
-            const SizedBox(height: 10),
-            Flexible(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    service.tamilName,
-                    style: TextStyle(
-                      fontSize: isTall ? 14 : 11,
-                      fontWeight: FontWeight.bold,
-                      color: AppTheme.brandDark,
-                      height: 1.1,
-                    ),
-                    maxLines: isTall ? 2 : 1,
-                    overflow: TextOverflow.ellipsis,
+            const SizedBox(height: 12),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  service.tamilName,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w800,
+                    color: AppTheme.brandDark,
+                    height: 1.2,
                   ),
-                  Text(
-                    service.name,
-                    style: const TextStyle(
-                      fontSize: 8,
-                      fontWeight: FontWeight.w600,
-                      color: AppTheme.brandSlate,
-                      letterSpacing: 0.5,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Text(
+                  service.name,
+                  style: const TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.w700,
+                    color: AppTheme.brandSlate,
+                    letterSpacing: 0.5,
                   ),
-                ],
-              ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  "Starting from ₹${service.price}",
+                  style: const TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w700,
+                    color: AppTheme.brandDark,
+                  ),
+                ),
+              ],
             ),
           ],
         ),

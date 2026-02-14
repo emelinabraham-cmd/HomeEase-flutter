@@ -23,6 +23,8 @@ class _BookingsScreenState extends State<BookingsScreen> {
         widget.service ??
         Service.allServices.firstWhere((s) => s.id == "handyman");
 
+    final serviceColor = _getServiceThemeColor(displayService.name);
+
     return Scaffold(
       backgroundColor: AppTheme.scaffoldBackground,
       body: Stack(
@@ -41,9 +43,9 @@ class _BookingsScreenState extends State<BookingsScreen> {
                       const SizedBox(height: 24),
                       _buildServiceInfoCard(displayService),
                       const SizedBox(height: 32),
-                      _buildDateSelection(),
+                      _buildDateSelection(serviceColor),
                       const SizedBox(height: 32),
-                      _buildTimeSlots(),
+                      _buildTimeSlots(serviceColor),
                       const SizedBox(height: 16),
                       _buildAddressCard(),
                       const SizedBox(height: 32),
@@ -55,7 +57,7 @@ class _BookingsScreenState extends State<BookingsScreen> {
               ],
             ),
           ),
-          _buildBottomAction(context),
+          _buildBottomAction(context, serviceColor),
         ],
       ),
     );
@@ -229,7 +231,7 @@ class _BookingsScreenState extends State<BookingsScreen> {
     );
   }
 
-  Widget _buildDateSelection() {
+  Widget _buildDateSelection(Color serviceColor) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -282,11 +284,11 @@ class _BookingsScreenState extends State<BookingsScreen> {
           physics: const BouncingScrollPhysics(),
           child: Row(
             children: [
-              _buildDateCard(0, "Today", "23"),
-              _buildDateCard(1, "Thu", "24"),
-              _buildDateCard(2, "Fri", "25"),
-              _buildDateCard(3, "Sat", "26"),
-              _buildDateCard(4, "Sun", "27"),
+              _buildDateCard(0, "Today", "23", serviceColor),
+              _buildDateCard(1, "Thu", "24", serviceColor),
+              _buildDateCard(2, "Fri", "25", serviceColor),
+              _buildDateCard(3, "Sat", "26", serviceColor),
+              _buildDateCard(4, "Sun", "27", serviceColor),
             ],
           ),
         ),
@@ -294,7 +296,12 @@ class _BookingsScreenState extends State<BookingsScreen> {
     );
   }
 
-  Widget _buildDateCard(int index, String day, String date) {
+  Widget _buildDateCard(
+    int index,
+    String day,
+    String date,
+    Color serviceColor,
+  ) {
     final isSelected = _selectedDateIndex == index;
     return GestureDetector(
       onTap: () => setState(() => _selectedDateIndex = index),
@@ -303,13 +310,13 @@ class _BookingsScreenState extends State<BookingsScreen> {
         height: 96,
         margin: const EdgeInsets.only(right: 12),
         decoration: BoxDecoration(
-          color: isSelected ? AppTheme.forestGreen : Colors.white,
+          color: isSelected ? serviceColor : Colors.white,
           borderRadius: BorderRadius.circular(24),
           border: isSelected ? null : Border.all(color: Colors.grey.shade100),
           boxShadow: isSelected
               ? [
                   BoxShadow(
-                    color: AppTheme.forestGreen.withOpacity(0.2),
+                    color: serviceColor.withOpacity(0.2),
                     blurRadius: 15,
                     offset: const Offset(0, 8),
                   ),
@@ -350,7 +357,7 @@ class _BookingsScreenState extends State<BookingsScreen> {
     );
   }
 
-  Widget _buildTimeSlots() {
+  Widget _buildTimeSlots(Color serviceColor) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -391,28 +398,28 @@ class _BookingsScreenState extends State<BookingsScreen> {
               "04:00 PM",
               "05:30 PM",
             ];
-            return _buildSlotCard(index, times[index]);
+            return _buildSlotCard(index, times[index], serviceColor);
           },
         ),
       ],
     );
   }
 
-  Widget _buildSlotCard(int index, String time) {
+  Widget _buildSlotCard(int index, String time, Color serviceColor) {
     final isSelected = _selectedTimeIndex == index;
     return GestureDetector(
       onTap: () => setState(() => _selectedTimeIndex = index),
       child: Container(
         decoration: BoxDecoration(
-          color: isSelected ? AppTheme.forestGreen : Colors.white,
+          color: isSelected ? serviceColor : Colors.white,
           borderRadius: BorderRadius.circular(24),
           border: Border.all(
-            color: isSelected ? AppTheme.forestGreen : Colors.grey.shade100,
+            color: isSelected ? serviceColor : Colors.grey.shade100,
           ),
           boxShadow: isSelected
               ? [
                   BoxShadow(
-                    color: AppTheme.forestGreen.withOpacity(0.2),
+                    color: serviceColor.withOpacity(0.2),
                     blurRadius: 10,
                     offset: const Offset(0, 4),
                   ),
@@ -648,7 +655,7 @@ class _BookingsScreenState extends State<BookingsScreen> {
     );
   }
 
-  Widget _buildBottomAction(BuildContext context) {
+  Widget _buildBottomAction(BuildContext context, Color serviceColor) {
     return Positioned(
       bottom: 0,
       left: 0,
@@ -665,11 +672,11 @@ class _BookingsScreenState extends State<BookingsScreen> {
                 width: double.infinity,
                 height: 72,
                 decoration: BoxDecoration(
-                  color: AppTheme.forestGreen,
+                  color: serviceColor,
                   borderRadius: BorderRadius.circular(28),
                   boxShadow: [
                     BoxShadow(
-                      color: AppTheme.forestGreen.withOpacity(0.3),
+                      color: serviceColor.withOpacity(0.3),
                       blurRadius: 20,
                       offset: const Offset(0, 8),
                     ),
@@ -708,5 +715,29 @@ class _BookingsScreenState extends State<BookingsScreen> {
         ),
       ),
     );
+  }
+
+  Color _getServiceThemeColor(String serviceName) {
+    final name = _normalizeServiceName(serviceName);
+
+    if (name.contains("handyman")) return const Color(0xFF2F80ED);
+    if (name.contains("moving")) return const Color(0xFFF2994A);
+    if (name.contains("light")) return const Color(0xFFF2C94C);
+    if (name.contains("hanging")) return const Color(0xFF5B6EE1);
+
+    // Case-specific check for cleaning to distinguish from gutter cleaning if needed
+    if (name == "cleaning") return const Color(0xFF2D9CDB);
+    if (name.contains("gutter")) return const Color(0xFF2AA198);
+
+    if (name.contains("assembly")) return const Color(0xFF5E8D6A);
+    if (name.contains("tv")) return const Color(0xFF9B51E0);
+    if (name.contains("hauling")) return const Color(0xFFEB5757);
+    if (name.contains("detector")) return const Color(0xFFFF4D6D);
+
+    return const Color(0xFF1F7A5A); // existing green
+  }
+
+  String _normalizeServiceName(String name) {
+    return name.toLowerCase().trim();
   }
 }

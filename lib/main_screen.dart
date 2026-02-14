@@ -40,7 +40,10 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     final List<Widget> pages = [
-      HomeScreen(onServiceSelected: _onServiceSelected),
+      HomeScreen(
+        onServiceSelected: _onServiceSelected,
+        onProfileSelected: () => _onItemTapped(2),
+      ),
       BookingsScreen(service: _selectedService, onBack: _handleBack),
       ProfileScreen(onBack: _handleBack),
       SupportScreen(onBack: _handleBack),

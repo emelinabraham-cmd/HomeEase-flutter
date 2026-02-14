@@ -2,6 +2,8 @@
 
 A modern, polished Flutter application designed to connect users with essential home services in Tamil Nadu. Built with a focus on premium UI/UX, accessibility, and performance.
 
+> **NEW**: Complete production-ready Supabase backend now available! See [Backend Documentation](#-backend-documentation) below.
+
 ## 🌟 Features
 
 ### Current Implementation
@@ -98,3 +100,97 @@ flowchart LR
     flutter pub get
     flutter run
     ```
+
+---
+
+## 🗄️ Backend Documentation
+
+HomeEase now includes a **complete, production-ready Supabase backend** with authentication, database, storage, and serverless functions.
+
+### Quick Start
+
+1. **Verify Backend Setup**
+   ```bash
+   ./verify_backend.sh
+   ```
+
+2. **Deploy to Supabase**
+   ```bash
+   supabase login
+   supabase link --project-ref YOUR_PROJECT_REF
+   supabase db push
+   ```
+
+3. **Configure Flutter App**
+   Update credentials in `lib/services/supabase_service.dart`
+
+### Backend Components
+
+| Component | Description | Files |
+|-----------|-------------|-------|
+| **Database Schema** | 5 tables with RLS | 3 migration files |
+| **Edge Functions** | 4 serverless functions | TypeScript/Deno |
+| **Flutter Integration** | Complete service layer | Dart code + examples |
+| **Documentation** | 30+ KB of guides | 5 markdown files |
+
+### Documentation Files
+
+- 📘 **[SUPABASE_SETUP.md](./SUPABASE_SETUP.md)** - Complete deployment guide
+- 👨‍💼 **[ADMIN_GUIDE.md](./ADMIN_GUIDE.md)** - Admin operations manual
+- 🏗️ **[BACKEND_README.md](./BACKEND_README.md)** - Architecture overview
+- ✅ **[IMPLEMENTATION_COMPLETE.md](./IMPLEMENTATION_COMPLETE.md)** - Implementation summary
+- 📂 **[supabase/README.md](./supabase/README.md)** - Quick reference
+
+### Backend Features
+
+✅ Phone OTP Authentication  
+✅ User Profiles with Roles  
+✅ Service Catalog Management  
+✅ Booking System  
+✅ Payment Tracking (Razorpay Ready)  
+✅ Support Ticket System  
+✅ File Storage (Public & Private)  
+✅ Row Level Security  
+✅ Real-time Subscriptions  
+
+### Backend Architecture
+
+```
+┌─────────────────────────────────────────────────────┐
+│                   FLUTTER APP                        │
+│  ┌────────────────────────────────────────────┐    │
+│  │      supabase_service.dart                  │    │
+│  │  (Auth, Profile, Booking, Support, etc.)   │    │
+│  └────────────────────────────────────────────┘    │
+└─────────────────────────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────┐
+│                 SUPABASE BACKEND                     │
+│                                                      │
+│  ┌─────────────┐  ┌─────────────┐  ┌────────────┐ │
+│  │ PostgreSQL  │  │ Edge        │  │  Storage   │ │
+│  │ Database    │  │ Functions   │  │  Buckets   │ │
+│  │  + RLS      │  │ (Deno)      │  │ (S3-like)  │ │
+│  └─────────────┘  └─────────────┘  └────────────┘ │
+│                                                      │
+│  Authentication (Phone OTP) → JWT → RLS             │
+└─────────────────────────────────────────────────────┘
+```
+
+### Database Tables
+
+- **profiles** - User information with role management
+- **services** - Home services catalog
+- **bookings** - Service booking records
+- **payments** - Payment transactions (Razorpay)
+- **support_messages** - Customer support tickets
+
+### Edge Functions
+
+- `create-booking` - Create service booking
+- `cancel-booking` - Cancel existing booking
+- `create-support-message` - Submit support ticket
+- `admin-create-service` - Admin: Create new service
+
+---
